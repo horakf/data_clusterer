@@ -1,4 +1,8 @@
+import json
+from typing import Any
+
 import numpy as np
+import numpy.typing as npt
 import pytest
 
 
@@ -17,3 +21,23 @@ def test_data():
             [9.0, 3.0],
         ]
     )
+
+
+@pytest.fixture
+def file_with_numpy_data(
+    test_data: npt.NDArray[Any], tmp_path_factory: pytest.TempPathFactory
+):
+    test_path = tmp_path_factory.mktemp("test_data") / "numpy_test.npy"
+    np.save(test_path, test_data)
+    yield str(test_path)
+
+
+@pytest.fixture
+def file_with_json_data(
+    test_data: npt.NDArray[Any], tmp_path_factory: pytest.TempPathFactory
+):
+    test_path = tmp_path_factory.mktemp("test_data") / "json_test.json"
+    test_data = test_data.tolist()
+    with open(test_path, "w") as f:
+        json.dump(test_data, f)
+    yield str(test_path)
