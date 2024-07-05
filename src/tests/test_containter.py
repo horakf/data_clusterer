@@ -1,3 +1,7 @@
+from typing import Any
+
+import numpy as np
+import numpy.typing as npt
 import pytest
 from data_clusterer.algorithms import KMeansAlgorithm
 from data_clusterer.container import Container
@@ -36,3 +40,9 @@ def test_kmeans_factory(container: Container):
     assert test_instance.model.random_state == 42
     assert test_instance.model.max_iter == 300
     assert test_instance.model.init == "k-means++"
+
+
+def test_load_numpy_file(container: Container, test_data: npt.NDArray[Any]):
+    test_instance = container.load_data()
+    assert test_instance is not None
+    assert np.array_equal(test_instance, test_data)
