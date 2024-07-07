@@ -5,6 +5,7 @@ from data_clusterer.algorithms import (
     DBSCANAlgorithm,
     KMeansAlgorithm,
 )
+from data_clusterer.file_export import save_json_file, save_numpy_array
 from data_clusterer.file_import import load_json_file, load_numpy_array
 
 
@@ -31,6 +32,12 @@ class Container(containers.DeclarativeContainer):
         load_json: Creates instance of function for loading json file and
             provides it with given file path.
         load_data: Selects and provides corresponding file loading provider
+            for the given file format.
+        save_numpy: Creates instance of function for exporting provided array
+            into numpy file and provides it with given file path.
+        save_json: Creates instance of function for exporting provided array
+            into json file and provides it with given file path.
+        save_data: Selects and provides corresponding file saving provider
             for the given file format.
     """
 
@@ -74,4 +81,16 @@ class Container(containers.DeclarativeContainer):
 
     load_data = providers.Selector(
         config.input_data.format, numpy=load_numpy, json=load_json
+    )
+
+    save_numpy = providers.Factory(
+        save_numpy_array, file_path=config.target_data.file_path
+    )
+
+    save_json = providers.Factory(
+        save_json_file, file_path=config.target_data.file_path
+    )
+
+    save_data = providers.Selector(
+        config.target_data.format, numpy=save_numpy, json=save_json
     )
