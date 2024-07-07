@@ -8,7 +8,7 @@ from data_clusterer.container import Container
 
 
 @pytest.fixture
-def container(file_with_numpy_data: str, file_with_json_data: str):
+def container(file_with_numpy_data: str, temporary_numpy_file: str):
     container = Container(
         config={
             "algorithm": {
@@ -24,7 +24,7 @@ def container(file_with_numpy_data: str, file_with_json_data: str):
             },
             "target_data": {
                 "format": "numpy",
-                "file_path": file_with_json_data,
+                "file_path": temporary_numpy_file,
             },
         }
     )
