@@ -1,4 +1,5 @@
 import json
+import os
 from typing import Any
 
 import numpy as np
@@ -24,20 +25,32 @@ def test_data():
 
 
 @pytest.fixture
-def file_with_numpy_data(
-    test_data: npt.NDArray[Any], tmp_path_factory: pytest.TempPathFactory
-):
-    test_path = tmp_path_factory.mktemp("test_data") / "numpy_test.npy"
-    np.save(test_path, test_data)
+def temporary_directory(tmp_path_factory: pytest.TempPathFactory):
+    test_path = tmp_path_factory.mktemp("test_data")
     yield str(test_path)
 
 
 @pytest.fixture
-def file_with_json_data(
-    test_data: npt.NDArray[Any], tmp_path_factory: pytest.TempPathFactory
+def temporary_numpy_file(temporary_directory: str):
+    yield str(os.path.join(temporary_directory, "numpy_test.npy"))
+
+
+@pytest.fixture
+def temporary_json_file(temporary_directory: str):
+    yield str(os.path.join(temporary_directory, "json_test.json"))
+
+
+@pytest.fixture
+def file_with_numpy_data(
+    test_data: npt.NDArray[Any], temporary_numpy_file: str
 ):
-    test_path = tmp_path_factory.mktemp("test_data") / "json_test.json"
+    np.save(temporary_numpy_file, test_data)
+    yield temporary_numpy_file
+
+
+@pytest.fixture
+def file_with_json_data(test_data: npt.NDArray[Any], temporary_json_file: str):
     test_data = test_data.tolist()
-    with open(test_path, "w") as f:
+    with open(temporary_json_file, "w") as f:
         json.dump(test_data, f)
-    yield str(test_path)
+    yield str(temporary_json_file)
