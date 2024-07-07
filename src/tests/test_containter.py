@@ -46,3 +46,14 @@ def test_load_numpy_file(container: Container, test_data: npt.NDArray[Any]):
     test_instance = container.load_data()
     assert test_instance is not None
     assert np.array_equal(test_instance, test_data)
+
+
+def test_save_numpy_file(
+    container: Container,
+    test_data: npt.NDArray[Any],
+    temporary_numpy_file: str,
+):
+    container.save_data(data=test_data)
+    loaded_test_data = np.load(temporary_numpy_file)
+    assert loaded_test_data is not None
+    assert np.array_equal(loaded_test_data, test_data)
