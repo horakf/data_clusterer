@@ -70,6 +70,14 @@ class Container(containers.DeclarativeContainer):
 
     aglomerative = providers.Factory(
         AglomerativeAlgorithm,
+        n_clusters=config.algorithm.hyperparameters.n_clusters,
+        metric=config.algorithm.hyperparameters.metric,
+        memory=config.algorithm.hyperparameters.memory,
+        connectivity=config.algorithm.hyperparameters.connectivity,
+        compute_full_tree=config.algorithm.hyperparameters.compute_full_tree,
+        linkage=config.algorithm.hyperparameters.linkage,
+        distance_threshold=config.algorithm.hyperparameters.distance_threshold,
+        compute_distances=config.algorithm.hyperparameters.compute_distances,
     )
 
     algorithm = providers.Selector(
