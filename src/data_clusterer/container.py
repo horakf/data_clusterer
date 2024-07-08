@@ -58,6 +58,14 @@ class Container(containers.DeclarativeContainer):
 
     dbscan = providers.Factory(
         DBSCANAlgorithm,
+        eps=config.algorithm.hyperparameters.eps,
+        min_samples=config.algorithm.hyperparameters.min_samples,
+        metric=config.algorithm.hyperparameters.metric,
+        metric_params=config.algorithm.hyperparameters.metric_params,
+        algorithm=config.algorithm.hyperparameters.algorithm,
+        leaf_size=config.algorithm.hyperparameters.leaf_size,
+        p=config.algorithm.hyperparameters.p,
+        n_jobs=config.algorithm.hyperparameters.n_jobs,
     )
 
     aglomerative = providers.Factory(
