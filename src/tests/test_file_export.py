@@ -1,10 +1,15 @@
+import json
 import os
 from typing import Any
 
 import numpy as np
 import numpy.typing as npt
 import pytest
-from data_clusterer.file_export import create_directories, save_numpy_array
+from data_clusterer.file_export import (
+    create_directories,
+    save_json_file,
+    save_numpy_array,
+)
 
 
 @pytest.mark.parametrize(
@@ -30,5 +35,16 @@ def test_save_numpy_file_creation(
     save_numpy_array(temporary_numpy_file, test_data)
     assert os.path.isfile(temporary_numpy_file)
     loaded_file = np.load(temporary_numpy_file)
+    assert loaded_file is not None
+    assert np.array_equal(loaded_file, test_data)
+
+
+def test_save_json_file_creation(
+    temporary_json_file: str, test_data: npt.NDArray[Any]
+):
+    save_json_file(temporary_json_file, test_data)
+    assert os.path.isfile(temporary_json_file)
+    with open(temporary_json_file, "r") as json_file:
+        loaded_file = json.load(json_file)
     assert loaded_file is not None
     assert np.array_equal(loaded_file, test_data)

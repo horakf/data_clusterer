@@ -1,3 +1,4 @@
+import json
 import os
 from typing import Any
 
@@ -30,4 +31,16 @@ def save_numpy_array(file_path: str, data: npt.NDArray[Any]) -> None:
     np.save(file_path, data)
 
 
-def save_json_file(file_path: str): ...
+def save_json_file(file_path: str, data: npt.NDArray[Any]) -> None:
+    """Saves numpy array data into json file.
+
+    Args:
+        file_path (str): Path to the target file.
+        data (npt.NDArray): Data to be exported.
+    Returns:
+        None
+    """
+    data_list = data.tolist()
+    create_directories(file_path)
+    with open(file_path, "w") as f:
+        json.dump(data_list, f)
