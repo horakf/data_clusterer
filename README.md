@@ -30,7 +30,8 @@ $ pip install .
 
 #### Usage
 
-I. Prepare configurations file in .yaml format with desirable clustering algorithm, hyperparameters, input/output data format and paths to source and target files.
+I. Prepare configurations file in .yaml format with desirable clustering algorithm, input/output data format and paths to source/target files and hyperparameters (List of hyperparameters for individual algorithms can be found in scikit-learn documentation.).
+
 Config file example:
 ```
 algorithm:
@@ -48,7 +49,16 @@ target_data:
   file_path: ./src/data/output/output.npy
 ```
 
-II. provide source data on a path entered in the configurations file in either numpy or json file format,
+II. Provide source data on a path entered in the configurations file in either numpy or json file format.
+
+Data in json file example:
+```
+[
+    [1.0, 2.0],
+    [1.5, 1.8],
+    [5.0, 8.0]
+]
+```
 
 III. run the script with configurations file path:
 ```
